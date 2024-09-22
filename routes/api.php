@@ -20,14 +20,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
-Route::get('/products', [ProductController::class, 'getAllProducts']);
-Route::get('/product/{id}', [ProductController::class, 'getProduct']);
-Route::get('/products/search', [ProductController::class, 'searchProducts']);
-Route::get('/products/limited', [ProductController::class, 'getLimitedProducts']);
-Route::get('/products/sort', [ProductController::class, 'sortProducts']);
-Route::get('/products/categories', [ProductController::class, 'getCategories']);
-Route::get('/products/category/{category}', [ProductController::class, 'getProductsByCategory']);
-Route::post('/products/add', [ProductController::class, 'addProduct']);
-Route::put('/products/{id}', [ProductController::class, 'updateProduct']);
-Route::delete('/products/{id}', [ProductController::class, 'deleteProduct']);
-
+Route::prefix('products')->group(function () {
+    Route::get('/', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/{id}', [ProductController::class, 'getProduct'])->name('products.show'); 
+    Route::get('/search', [ProductController::class, 'searchProducts'])->name('products.search');  
+    Route::get('/limited', [ProductController::class, 'getLimitedProducts'])->name('products.limited');  
+    Route::get('/sort', [ProductController::class, 'sortProducts'])->name('products.sort');  
+    Route::get('/categories', [ProductController::class, 'getCategories'])->name('products.categories');
+    Route::get('/category/{category}', [ProductController::class, 'getProductsByCategory'])->name('products.byCategory');  
+    
+    Route::post('/add', [ProductController::class, 'addProduct'])->name('products.add');
+    Route::put('/{id}', [ProductController::class, 'updateProduct'])->name('products.update');  
+    Route::delete('/{id}', [ProductController::class, 'deleteProduct'])->name('products.delete');  
+});
